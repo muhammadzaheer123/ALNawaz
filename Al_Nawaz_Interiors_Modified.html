@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Al Nawaz Interiors – Premium Curtains & Interior Design</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dim: #8C6E2F;
+    --dark: #0A0A08;
+    --dark2: #111110;
+    --dark3: #1A1A17;
+    --dark4: #242420;
+    --cream: #F5F0E8;
+    --cream2: #EDE6D5;
+    --text-muted: #888880;
+    --font-display: 'Nentis', serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  @font-face {
+    font-family: 'Nentis';
+    src: url('fonts/Nentis.woff2') format('woff2');
+    font-display: swap;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--cream);
+    font-family: var(--font-body);
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom Cursor */
+  .cursor {
+    position: fixed; top: 0; left: 0;
+    width: 10px; height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    position: fixed; top: 0; left: 0;
+    width: 36px; height: 36px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.15s ease;
+    opacity: 0.6;
+  }
+  body:hover .cursor-ring { opacity: 1; }
+  a:hover ~ .cursor, button:hover ~ .cursor { transform: translate(-50%, -50%) scale(2); }
+
+  /* Grain Overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9990; opacity: 0.5;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 1.5rem 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: all 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(10,10,8,0.95);
+    backdrop-filter: blur(20px);
+    padding: 1rem 4rem;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.6rem; font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--cream);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links {
+    display: flex; gap: 2.5rem; list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-muted); text-decoration: none;
+    font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase;
+    transition: color 0.3s;
+    font-weight: 400;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 0.6rem 1.5rem;
+    font-family: var(--font-body);
+    font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.3s;
+    text-decoration: none;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--dark); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { display: block; width: 24px; height: 1px; background: var(--cream); transition: all 0.3s; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 0 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #0A0A08 0%, #1A1408 40%, #0A0A08 100%);
+  }
+  .hero-bg-pattern {
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(201,168,76,0.04) 80px),
+      repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(201,168,76,0.04) 80px);
+  }
+  .hero-orb {
+    position: absolute; right: -10%; top: 50%;
+    transform: translateY(-50%);
+    width: 700px; height: 700px;
+    background: radial-gradient(circle at center, rgba(201,168,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 680px; }
+  .hero-eyebrow {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .hero-eyebrow-line { width: 40px; height: 1px; background: var(--gold); }
+  .hero-eyebrow span {
+    font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); font-weight: 400;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 7vw, 6.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--gold-light); }
+  .hero-desc {
+    font-size: 1rem; line-height: 1.8;
+    color: var(--text-muted); max-width: 460px;
+    margin-bottom: 3rem; font-weight: 300;
+  }
+  .hero-actions { display: flex; align-items: center; gap: 2rem; }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--dark);
+    padding: 1rem 2.5rem;
+    font-family: var(--font-body);
+    font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase;
+    border: none; cursor: pointer; transition: all 0.3s;
+    font-weight: 500; text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-ghost {
+    color: var(--cream); text-decoration: none;
+    font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 0.5rem;
+    transition: color 0.3s;
+  }
+  .btn-ghost:hover { color: var(--gold); }
+  .btn-ghost .arrow { transition: transform 0.3s; }
+  .btn-ghost:hover .arrow { transform: translateX(4px); }
+
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 4rem;
+    display: flex; align-items: center; gap: 1rem;
+    font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .scroll-line {
+    width: 1px; height: 60px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollAnim 2s ease-in-out infinite;
+  }
+  @keyframes scrollAnim {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  .hero-stats {
+    position: absolute; right: 4rem; bottom: 4rem;
+    display: flex; gap: 3rem;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 2.5rem; font-weight: 300;
+    color: var(--gold);
+  }
+  .stat-label {
+    font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-muted); margin-top: 0.25rem;
+  }
+
+  /* MARQUEE */
+  .marquee-section {
+    border-top: 1px solid rgba(201,168,76,0.15);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    overflow: hidden; padding: 1.2rem 0;
+    background: var(--dark2);
+  }
+  .marquee-track {
+    display: flex; gap: 4rem;
+    animation: marquee 20s linear infinite;
+    width: max-content;
+  }
+  .marquee-item {
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--text-muted); white-space: nowrap;
+    display: flex; align-items: center; gap: 1.5rem;
+  }
+  .marquee-dot { width: 4px; height: 4px; background: var(--gold); border-radius: 50%; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* SERVICES */
+  .section { padding: 8rem 4rem; }
+  .section-header { margin-bottom: 5rem; }
+  .section-tag {
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-tag::before { content: ''; display: block; width: 30px; height: 1px; background: var(--gold); }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 300; line-height: 1.1;
+  }
+  .section-title em { font-style: italic; color: var(--gold-light); }
+
+  .services-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: rgba(201,168,76,0.15);
+  }
+  .service-card {
+    background: var(--dark2);
+    padding: 3rem 2.5rem;
+    position: relative; overflow: hidden;
+    transition: all 0.4s ease;
+    cursor: default;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; bottom: 0; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.6s ease;
+  }
+  .service-card:hover::before { width: 100%; }
+  .service-card:hover { background: var(--dark3); }
+  .service-num {
+    font-family: var(--font-display);
+    font-size: 4rem; font-weight: 300;
+    color: rgba(201,168,76,0.12);
+    line-height: 1; margin-bottom: 1.5rem;
+    transition: color 0.3s;
+  }
+  .service-card:hover .service-num { color: rgba(201,168,76,0.25); }
+  .service-icon {
+    width: 48px; height: 48px; margin-bottom: 1.5rem;
+    border: 1px solid rgba(201,168,76,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+  }
+  .service-name {
+    font-family: var(--font-display);
+    font-size: 1.5rem; font-weight: 400;
+    margin-bottom: 1rem; color: var(--cream);
+  }
+  .service-desc {
+    font-size: 0.9rem; line-height: 1.8;
+    color: var(--text-muted);
+  }
+
+  /* WHY US */
+  .why-section { padding: 8rem 4rem; background: var(--dark2); }
+  .why-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6rem; align-items: center;
+  }
+  .why-visual {
+    position: relative;
+    aspect-ratio: 3/4;
+  }
+  .why-visual-inner {
+    width: 100%; height: 100%;
+    background: var(--dark3);
+    border: 1px solid rgba(201,168,76,0.2);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .why-visual-inner::before {
+    content: '';
+    position: absolute; inset: 12px;
+    border: 1px solid rgba(201,168,76,0.1);
+  }
+  .curtain-svg { width: 70%; opacity: 0.4; }
+  .why-badge {
+    position: absolute; bottom: -20px; right: -20px;
+    width: 120px; height: 120px;
+    background: var(--gold);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    color: var(--dark);
+  }
+  .why-badge-num {
+    font-family: var(--font-display);
+    font-size: 2.5rem; font-weight: 600;
+    line-height: 1;
+  }
+  .why-badge-text { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; }
+
+  .why-features { display: flex; flex-direction: column; gap: 2rem; margin-top: 3rem; }
+  .why-feature {
+    display: flex; gap: 1.5rem;
+    padding: 1.5rem;
+    border: 1px solid rgba(201,168,76,0.1);
+    transition: all 0.3s;
+  }
+  .why-feature:hover { border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.03); }
+  .why-feature-icon {
+    width: 44px; height: 44px; flex-shrink: 0;
+    background: rgba(201,168,76,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; color: var(--gold);
+  }
+  .why-feature-title { font-size: 1rem; font-weight: 500; margin-bottom: 0.3rem; }
+  .why-feature-text { font-size: 0.88rem; line-height: 1.7; color: var(--text-muted); }
+
+  /* PRODUCTS */
+  .products-section { padding: 8rem 4rem; }
+  .products-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .product-card {
+    position: relative; overflow: hidden;
+    cursor: pointer;
+  }
+  .product-img {
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    background: var(--dark3);
+    position: relative;
+  }
+  .product-img-inner {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.6s ease;
+    font-size: 4rem; opacity: 0.3;
+  }
+  .product-card:hover .product-img-inner { transform: scale(1.05); }
+  .product-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,10,8,0.9) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .product-card:hover .product-overlay { opacity: 1; }
+  .product-info {
+    padding: 1.2rem 0;
+  }
+  .product-name { font-family: var(--font-display); font-size: 1.1rem; font-weight: 400; }
+  .product-price { font-size: 0.85rem; color: var(--gold); margin-top: 0.25rem; }
+
+  /* TESTIMONIALS */
+  .reviews-section { padding: 8rem 4rem; background: var(--dark2); }
+  .reviews-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;
+    margin-top: 4rem;
+  }
+  .review-card {
+    padding: 2.5rem;
+    border: 1px solid rgba(201,168,76,0.15);
+    position: relative;
+    transition: border-color 0.3s;
+  }
+  .review-card:hover { border-color: rgba(201,168,76,0.4); }
+  .review-quote {
+    font-family: var(--font-display);
+    font-size: 4rem; line-height: 0.5;
+    color: var(--gold); opacity: 0.3;
+    margin-bottom: 1.5rem;
+  }
+  .review-text {
+    font-size: 0.95rem; line-height: 1.9;
+    color: var(--cream2); margin-bottom: 1.5rem;
+    font-style: italic; font-family: var(--font-display);
+  }
+  .review-author { display: flex; align-items: center; gap: 1rem; }
+  .review-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(201,168,76,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem; color: var(--gold); font-weight: 500;
+  }
+  .review-name { font-size: 0.9rem; font-weight: 500; }
+  .review-stars { color: var(--gold); font-size: 0.7rem; margin-top: 0.15rem; }
+  .rating-highlight {
+    text-align: center; padding: 3rem;
+    border: 1px solid rgba(201,168,76,0.15);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .rating-big {
+    font-family: var(--font-display);
+    font-size: 6rem; font-weight: 300;
+    color: var(--gold); line-height: 1;
+  }
+  .rating-stars { font-size: 1.5rem; color: var(--gold); margin: 0.5rem 0; }
+  .rating-desc { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* DELIVERY */
+  .delivery-section {
+    padding: 6rem 4rem;
+    background: linear-gradient(135deg, var(--dark3), var(--dark));
+    border-top: 1px solid rgba(201,168,76,0.15);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    text-align: center;
+  }
+  .delivery-icon { font-size: 3rem; margin-bottom: 1.5rem; }
+  .delivery-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 300; margin-bottom: 1rem;
+  }
+  .delivery-title em { font-style: italic; color: var(--gold-light); }
+  .delivery-desc { font-size: 0.95rem; color: var(--text-muted); max-width: 500px; margin: 0 auto 2.5rem; line-height: 1.8; }
+  .delivery-cities {
+    display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-bottom: 3rem;
+  }
+  .city-tag {
+    padding: 0.5rem 1.2rem;
+    border: 1px solid rgba(201,168,76,0.3);
+    font-size: 0.8rem; letter-spacing: 0.1em;
+    color: var(--text-muted); text-transform: uppercase;
+    transition: all 0.3s;
+  }
+  .city-tag:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* CTA */
+  .cta-section {
+    padding: 10rem 4rem;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(201,168,76,0.06) 0%, transparent 70%);
+  }
+  .cta-content { position: relative; z-index: 1; }
+  .cta-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 300; line-height: 1.1; margin-bottom: 1.5rem;
+  }
+  .cta-title em { font-style: italic; color: var(--gold-light); }
+  .cta-desc { font-size: 1rem; color: var(--text-muted); max-width: 480px; margin: 0 auto 3rem; line-height: 1.8; }
+  .cta-actions { display: flex; gap: 1.5rem; justify-content: center; align-items: center; }
+  .btn-wa {
+    background: #25D366;
+    color: #fff;
+    padding: 1rem 2.5rem;
+    font-family: var(--font-body);
+    font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase;
+    border: none; cursor: pointer; transition: all 0.3s;
+    font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 0.6rem;
+  }
+  .btn-wa:hover { background: #1ebd5a; transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark2);
+    border-top: 1px solid rgba(201,168,76,0.15);
+    padding: 4rem;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr;
+    gap: 4rem; margin-bottom: 3rem;
+  }
+  .footer-brand { }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 1.8rem; font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .footer-logo span { color: var(--gold); }
+  .footer-tagline { font-size: 0.88rem; color: var(--text-muted); line-height: 1.8; max-width: 280px; }
+  .footer-contact {
+    margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .footer-contact a {
+    font-size: 0.85rem; color: var(--text-muted); text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-contact a:hover { color: var(--gold); }
+  .footer-col-title {
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.5rem;
+  }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+  .footer-links a {
+    font-size: 0.88rem; color: var(--text-muted); text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--cream); }
+  .footer-bottom {
+    padding-top: 2rem;
+    border-top: 1px solid rgba(201,168,76,0.1);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-bottom-text { font-size: 0.78rem; color: var(--text-muted); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    nav { padding: 1.5rem 2rem; }
+    nav.scrolled { padding: 1rem 2rem; }
+    .hero { padding: 0 2rem; }
+    .section, .why-section, .products-section, .reviews-section, .delivery-section, .cta-section { padding: 6rem 2rem; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+    .why-grid { gap: 3rem; }
+    footer { padding: 3rem 2rem; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .hero-stats { right: 2rem; bottom: 3rem; gap: 2rem; }
+  }
+
+  @media (max-width: 768px) {
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    nav { padding: 1.2rem 1.5rem; }
+    nav.scrolled { padding: 1rem 1.5rem; }
+    .hero { padding: 0 1.5rem; padding-top: 5rem; flex-direction: column; justify-content: center; min-height: 100vh; }
+    .hero h1 { font-size: 3rem; }
+    .hero-stats { position: static; margin-top: 3rem; justify-content: flex-start; gap: 2rem; }
+    .hero-scroll { display: none; }
+    .section, .why-section, .products-section, .reviews-section, .delivery-section { padding: 4rem 1.5rem; }
+    .cta-section { padding: 5rem 1.5rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    .why-visual { aspect-ratio: 4/3; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+    .cta-actions { flex-direction: column; }
+    footer { padding: 3rem 1.5rem; }
+    .hero-actions { flex-direction: column; align-items: flex-start; gap: 1.2rem; }
+  }
+
+  /* Animations */
+  .fade-up { opacity: 0; transform: translateY(30px); }
+  .fade-in { opacity: 0; }
+  .line-reveal { overflow: hidden; }
+  .line-inner { transform: translateY(100%); }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Al <span>Nawaz</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="https://wa.me/923152904151" class="nav-cta" target="_blank">WhatsApp Us</a>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-orb"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow fade-up">
+      <div class="hero-eyebrow-line"></div>
+      <span>Premium Interiors · Karachi, Pakistan</span>
+    </div>
+
+    <h1 class="fade-up">
+      Dress Your<br>
+      Space in <em>Pure</em><br>
+      Elegance
+    </h1>
+
+    <p class="hero-desc fade-up">
+      Al Nawaz Interiors brings world-class curtains, blinds, and designer furniture to your home. Craftsmanship you can see. Quality you can feel.
+    </p>
+
+    <div class="hero-actions fade-up">
+      <a href="https://wa.me/923152904151" class="btn-primary" target="_blank">
+        Get Free Consultation
+      </a>
+      <a href="#services" class="btn-ghost">
+        Our Services <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat fade-up">
+      <div class="stat-num">500+</div>
+      <div class="stat-label">Projects Done</div>
+    </div>
+    <div class="stat fade-up">
+      <div class="stat-num">4.8★</div>
+      <div class="stat-label">Google Rating</div>
+    </div>
+    <div class="stat fade-up">
+      <div class="stat-num">5+</div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marqueeTrack">
+    <div class="marquee-item"><span>Premium Curtains</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Interior Design</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Designer Furniture</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Roller Blinds</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Zebra Blinds</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Wooden Blinds</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Delivery All Over Pakistan</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Custom Tailoring</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Premium Curtains</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Interior Design</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Designer Furniture</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Roller Blinds</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Zebra Blinds</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Wooden Blinds</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Delivery All Over Pakistan</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Custom Tailoring</span><div class="marquee-dot"></div></div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="section-header">
+    <div class="section-tag fade-up">What We Offer</div>
+    <h2 class="section-title fade-up">Transforming Spaces<br>with <em>Artful Precision</em></h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card fade-up">
+      <div class="service-num">01</div>
+      <div class="service-icon">🪟</div>
+      <div class="service-name">Window Curtains</div>
+      <p class="service-desc">Exquisite curtains crafted from premium fabrics. From sheer elegance to blackout perfection — every window deserves a masterpiece.</p>
+    </div>
+    <div class="service-card fade-up">
+      <div class="service-num">02</div>
+      <div class="service-icon">🏠</div>
+      <div class="service-name">Interior Design</div>
+      <p class="service-desc">Full-service interior design consultation. We transform your vision into a living reality with expert craftsmanship and style.</p>
+    </div>
+    <div class="service-card fade-up">
+      <div class="service-num">03</div>
+      <div class="service-icon">🪑</div>
+      <div class="service-name">Designer Furniture</div>
+      <p class="service-desc">Curated furniture collections that blend aesthetics and function. Pieces that become the soul of your living space.</p>
+    </div>
+    <div class="service-card fade-up">
+      <div class="service-num">04</div>
+      <div class="service-icon">🎭</div>
+      <div class="service-name">Curtains & Blinds</div>
+      <p class="service-desc">Roller blinds, zebra blinds, wooden blinds — every style, every light condition. Perfect fit, every time.</p>
+    </div>
+    <div class="service-card fade-up">
+      <div class="service-num">05</div>
+      <div class="service-icon">✂️</div>
+      <div class="service-name">Custom Tailoring</div>
+      <p class="service-desc">Bespoke tailoring to your exact measurements. No standard sizes — your space is unique, your curtains should be too.</p>
+    </div>
+    <div class="service-card fade-up">
+      <div class="service-num">06</div>
+      <div class="service-icon">🚚</div>
+      <div class="service-name">Nationwide Delivery</div>
+      <p class="service-desc">We deliver premium curtains and blinds to every corner of Pakistan. Quality at your doorstep, wherever you are.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why-section" id="about">
+  <div class="why-grid">
+    <div>
+      <div class="section-tag fade-up">Why Al Nawaz</div>
+      <h2 class="section-title fade-up">Quality That<br>Speaks <em>For Itself</em></h2>
+      <p class="fade-up" style="color:var(--text-muted);line-height:1.9;margin-top:1.5rem;font-size:0.95rem;">
+        Based in Sector 10 Hanifabad, Karachi, we've been dressing the finest homes and offices with premium window treatments and interiors. Our commitment: flawless quality, honest pricing, and service that genuinely delights.
+      </p>
+      <div class="why-features">
+        <div class="why-feature fade-up">
+          <div class="why-feature-icon">⭐</div>
+          <div>
+            <div class="why-feature-title">4.8 Star Rated</div>
+            <p class="why-feature-text">Consistently top-rated on Google with glowing reviews from satisfied clients across Karachi and beyond.</p>
+          </div>
+        </div>
+        <div class="why-feature fade-up">
+          <div class="why-feature-icon">🎯</div>
+          <div>
+            <div class="why-feature-title">Precision Fitting</div>
+            <p class="why-feature-text">Every piece is measured, cut, and fitted to perfection. We don't leave until you're completely satisfied.</p>
+          </div>
+        </div>
+        <div class="why-feature fade-up">
+          <div class="why-feature-icon">💰</div>
+          <div>
+            <div class="why-feature-title">Best Price Guarantee</div>
+            <p class="why-feature-text">Premium quality without the premium price tag. We believe beautiful interiors should be accessible to all.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="why-visual">
+      <div class="why-visual-inner">
+        <svg class="curtain-svg" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="0" width="80" height="300" rx="0" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.4)" stroke-width="0.5"/>
+          <rect x="110" y="0" width="80" height="300" rx="0" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.4)" stroke-width="0.5"/>
+          <rect x="0" y="0" width="200" height="8" fill="rgba(201,168,76,0.5)"/>
+          <line x1="50" y1="0" x2="50" y2="300" stroke="rgba(201,168,76,0.2)" stroke-width="0.5" stroke-dasharray="4,8"/>
+          <line x1="30" y1="0" x2="30" y2="300" stroke="rgba(201,168,76,0.15)" stroke-width="0.5" stroke-dasharray="4,8"/>
+          <line x1="70" y1="0" x2="70" y2="300" stroke="rgba(201,168,76,0.15)" stroke-width="0.5" stroke-dasharray="4,8"/>
+          <line x1="150" y1="0" x2="150" y2="300" stroke="rgba(201,168,76,0.2)" stroke-width="0.5" stroke-dasharray="4,8"/>
+          <line x1="130" y1="0" x2="130" y2="300" stroke="rgba(201,168,76,0.15)" stroke-width="0.5" stroke-dasharray="4,8"/>
+          <line x1="170" y1="0" x2="170" y2="300" stroke="rgba(201,168,76,0.15)" stroke-width="0.5" stroke-dasharray="4,8"/>
+          <text x="100" y="155" text-anchor="middle" fill="rgba(201,168,76,0.3)" font-size="11" letter-spacing="3" font-family="DM Sans, sans-serif">PREMIUM</text>
+          <text x="100" y="172" text-anchor="middle" fill="rgba(201,168,76,0.3)" font-size="11" letter-spacing="3" font-family="DM Sans, sans-serif">CURTAINS</text>
+        </svg>
+      </div>
+      <div class="why-badge">
+        <div class="why-badge-num">5+</div>
+        <div class="why-badge-text">Years of Trust</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products-section" id="products">
+  <div class="section-header" style="display:flex;justify-content:space-between;align-items:flex-end;">
+    <div>
+      <div class="section-tag fade-up">Our Collection</div>
+      <h2 class="section-title fade-up">Finest Window<br><em>Treatments</em></h2>
+    </div>
+    <a href="https://wa.me/923152904151" class="btn-ghost fade-up" target="_blank">View All <span class="arrow">→</span></a>
+  </div>
+  <div class="products-grid">
+    <div class="product-card fade-up">
+      <div class="product-img">
+        <div class="product-img-inner" style="background:url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1200&auto=format&fit=crop') center/cover no-repeat;width:100%;height:100%;font-size:0;"></div>
+        <div class="product-overlay"></div>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Velvet Drapes</div>
+        <div class="product-price">Premium Collection</div>
+      </div>
+    </div>
+    <div class="product-card fade-up">
+      <div class="product-img" style="background:var(--dark4);">
+        <div class="product-img-inner" style="background:url('https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=1200&auto=format&fit=crop') center/cover no-repeat;width:100%;height:100%;font-size:0;"></div>
+        <div class="product-overlay"></div>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Roller Blinds</div>
+        <div class="product-price">Modern Series</div>
+      </div>
+    </div>
+    <div class="product-card fade-up">
+      <div class="product-img" style="background:#151510;">
+        <div class="product-img-inner" style="background:url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1200&auto=format&fit=crop') center/cover no-repeat;width:100%;height:100%;font-size:0;"></div>
+        <div class="product-overlay"></div>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Wooden Blinds</div>
+        <div class="product-price">Natural Collection</div>
+      </div>
+    </div>
+    <div class="product-card fade-up">
+      <div class="product-img" style="background:#181814;">
+        <div class="product-img-inner" style="background:url('https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1200&auto=format&fit=crop') center/cover no-repeat;width:100%;height:100%;font-size:0;"></div>
+        <div class="product-overlay"></div>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Zebra Blinds</div>
+        <div class="product-price">Signature Series</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews-section" id="reviews">
+  <div class="section-header">
+    <div class="section-tag fade-up">Client Reviews</div>
+    <h2 class="section-title fade-up">What Our Clients<br><em>Say About Us</em></h2>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card fade-up">
+      <div class="review-quote">"</div>
+      <p class="review-text">Absolutely stunning work! The curtains transformed our living room completely. The quality is exceptional and the installation was flawless. Highly recommend Al Nawaz Interiors.</p>
+      <div class="review-author">
+        <div class="review-avatar">AK</div>
+        <div>
+          <div class="review-name">Ahmed Khan</div>
+          <div class="review-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+    <div class="rating-highlight fade-up">
+      <div class="rating-big">4.8</div>
+      <div class="rating-stars">★★★★★</div>
+      <div class="rating-desc">Google Rating · 4 Reviews</div>
+      <div style="margin-top:2rem;">
+        <a href="https://wa.me/923152904151" class="btn-primary" target="_blank" style="display:inline-block;font-size:0.78rem;">
+          Get a Quote
+        </a>
+      </div>
+    </div>
+    <div class="review-card fade-up">
+      <div class="review-quote">"</div>
+      <p class="review-text">Best interior shop in Karachi! Got my whole apartment done — curtains, blinds, everything. The prices are very reasonable for the quality you get. Will definitely come back.</p>
+      <div class="review-author">
+        <div class="review-avatar">SR</div>
+        <div>
+          <div class="review-name">Sara Raza</div>
+          <div class="review-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card fade-up">
+      <div class="review-quote">"</div>
+      <p class="review-text">Professional service and beautiful products. They helped me choose the perfect zebra blinds for my office. The whole process was smooth and they delivered on time.</p>
+      <div class="review-author">
+        <div class="review-avatar">FM</div>
+        <div>
+          <div class="review-name">Fahad Mirza</div>
+          <div class="review-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERY -->
+<section class="delivery-section">
+  <div class="delivery-icon fade-up">🚚</div>
+  <h2 class="delivery-title fade-up">Delivering <em>Excellence</em><br>All Over Pakistan</h2>
+  <p class="delivery-desc fade-up">From Karachi to Lahore, Islamabad to Peshawar — your dream curtains and blinds delivered straight to your door.</p>
+  <div class="delivery-cities fade-up">
+    <div class="city-tag">Karachi</div>
+    <div class="city-tag">Lahore</div>
+    <div class="city-tag">Islamabad</div>
+    <div class="city-tag">Rawalpindi</div>
+    <div class="city-tag">Faisalabad</div>
+    <div class="city-tag">Multan</div>
+    <div class="city-tag">Peshawar</div>
+    <div class="city-tag">Quetta</div>
+    <div class="city-tag">All Pakistan</div>
+  </div>
+  <a href="https://wa.me/923152904151" class="btn-primary fade-up" target="_blank">Order Now</a>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="cta-content">
+    <div class="section-tag fade-up" style="justify-content:center;margin-bottom:1.5rem;">
+      <div style="display:flex;align-items:center;gap:1rem;">
+        <div style="width:30px;height:1px;background:var(--gold);"></div>
+        <span style="font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);">Get In Touch</span>
+        <div style="width:30px;height:1px;background:var(--gold);"></div>
+      </div>
+    </div>
+    <h2 class="cta-title fade-up">
+      Ready to Transform<br>
+      Your <em>Space?</em>
+    </h2>
+    <p class="cta-desc fade-up">
+      Message us on WhatsApp for a free consultation. Tell us your requirements and we'll craft the perfect solution for your home or office.
+    </p>
+    <div class="cta-actions fade-up">
+      <a href="https://wa.me/923152904151" class="btn-wa" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Chat on WhatsApp
+      </a>
+      <a href="tel:+923152904151" class="btn-primary" style="display:inline-flex;align-items:center;gap:0.6rem;">
+        📞 +92 315 2904151
+      </a>
+    </div>
+    <p style="margin-top:2rem;font-size:0.8rem;color:var(--text-muted);opacity:0.7;" class="fade-up">
+      📍 R 392/7 Sector 10 Hanifabad, Karachi, Pakistan
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">Al <span>Nawaz</span> Interiors</div>
+      <p class="footer-tagline">Providing premium window curtains, interior design, designer furniture, and blinds. Serving Karachi and delivering all over Pakistan.</p>
+      <div class="footer-contact">
+        <a href="tel:+923152904151">📞 +92 315 2904151</a>
+        <a href="https://wa.me/923152904151" target="_blank">💬 WhatsApp Us</a>
+        <a href="#">📍 Sector 10 Hanifabad, Karachi</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <ul class="footer-links">
+        <li><a href="#">Window Curtains</a></li>
+        <li><a href="#">Interior Design</a></li>
+        <li><a href="#">Designer Furniture</a></li>
+        <li><a href="#">Roller Blinds</a></li>
+        <li><a href="#">Wooden Blinds</a></li>
+        <li><a href="#">Zebra Blinds</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Connect</div>
+      <ul class="footer-links">
+        <li><a href="https://www.facebook.com/profile.php?id=61575085133133" target="_blank">Facebook Page</a></li>
+        <li><a href="https://wa.me/923152904151" target="_blank">WhatsApp</a></li>
+        <li><a href="tel:+923152904151">Call Us</a></li>
+        <li><a href="#">Google Maps</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-bottom-text">© 2025 Al Nawaz Interiors · All Rights Reserved · Karachi, Pakistan</p>
+    <p class="footer-bottom-text" style="color:var(--gold-dim);">Crafted with ♥ for Pakistan's finest homes</p>
+  </div>
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// Cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+if(cursor && ring) {
+  document.addEventListener('mousemove', e => {
+    gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+    gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.25 });
+  });
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => gsap.to(ring, { scale: 1.8, opacity: 1 }));
+    el.addEventListener('mouseleave', () => gsap.to(ring, { scale: 1, opacity: 0.6 }));
+  });
+}
+
+// Nav scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 80);
+});
+
+// Hero entrance
+gsap.timeline({ delay: 0.3 })
+  .to('.hero .fade-up', { opacity: 1, y: 0, duration: 0.9, stagger: 0.15, ease: 'power3.out' });
+
+// Scroll animations
+gsap.utils.toArray('.fade-up').forEach(el => {
+  if(el.closest('.hero')) return;
+  gsap.to(el, {
+    scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' },
+    opacity: 1, y: 0, duration: 0.8, ease: 'power3.out'
+  });
+});
+
+// Stat counter animation
+const stats = document.querySelectorAll('.stat-num');
+stats.forEach(el => {
+  ScrollTrigger.create({
+    trigger: el,
+    start: 'top 90%',
+    onEnter: () => {
+      el.style.opacity = 1;
+    }
+  });
+});
+
+// Service cards hover gold border
+document.querySelectorAll('.service-card').forEach(card => {
+  card.addEventListener('mouseenter', function() {
+    gsap.to(this, { borderColor: 'rgba(201,168,76,0.3)', duration: 0.3 });
+  });
+  card.addEventListener('mouseleave', function() {
+    gsap.to(this, { borderColor: 'transparent', duration: 0.3 });
+  });
+});
+
+// Parallax hero orb
+gsap.to('.hero-orb', {
+  scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true },
+  y: -100, opacity: 0
+});
+</script>
+</body>
+</html>
